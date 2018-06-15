@@ -1,4 +1,8 @@
 <?PHP
+/**
+* スタイルシート・スクリプト読み込み
+*
+*/
 function load_scripts(){
     //スタイルシート読み込み
     wp_enqueue_style('main',get_stylesheet_uri());
@@ -22,15 +26,22 @@ function kamogashira_setup(){
 add_action('after_setup_theme','kamogashira_setup');
 
 
+/**
+* wp_head()の余計な出力を削除する
+*
+*/
 //絵文字不要
 remove_action('wp_head', 'print_emoji_detection_script', 7);
 remove_action('wp_print_styles', 'print_emoji_styles');
-//ブログ投稿機能不要
+
+//EditURI を削除
 remove_action('wp_head', 'rsd_link');
+//wlwmanifest を削除
 remove_action('wp_head', 'wlwmanifest_link');
 //WordPressのバージョン表示不要
 remove_action('wp_head', 'wp_generator');
-//Embed 'https://api.w.org/‘ 不要
+//ヘッダーに以下のようなタグが挿入されるWP4.4からの機能を解除
+//<link rel='https://api.w.org/' href='http:/xxxx/wordpress/wp-json/' />
 remove_action('wp_head','rest_output_link_wp_head');
 //プリフェッチ不要
 function remove_dns_prefetch( $hints, $relation_type ) {
